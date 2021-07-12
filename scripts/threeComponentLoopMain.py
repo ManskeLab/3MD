@@ -111,10 +111,12 @@ if __name__ == '__main__':
     completedString = completed.astype(str)
     completedString[1:,:] = completed[1:,:].astype('S7')
 
+    patientNumber = completed[1][0]
+
     # Write output to CSV
     parentDir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     outputDir = os.path.join(parentDir, 'output')
-    outputFilename = os.path.join(outputDir, 'SegmentedOutput.csv')
+    outputFilename = os.path.join(outputDir, 'Patient' + patientNumber + '_SegmentedOutput.csv')
     np.savetxt(outputFilename, completedString.astype(str), delimiter=',', fmt='%s')
 
     print('--- %s seconds ---' % (time.time() - start_time))

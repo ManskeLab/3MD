@@ -86,7 +86,7 @@ def Component3_Decomp(dicomPath_50keV, dicomPath_65keV, Patient, Leg, filterimag
     square_size = 11
     ROI_list = []
     
-    phantomROIsCSV = os.path.join(parentDir, 'Phantom_ROIs_Reformatted.csv')
+    phantomROIsCSV = os.path.join(os.path.join(parentDir, 'input'), 'Patient2_Phantom_ROIs.csv')
     with open(phantomROIsCSV, newline = '') as ROIs:  # Why is this a txt file and not CSV?                                                                                        
         ROI_reader = csv.reader(ROIs, delimiter=',')
         for ROI in ROI_reader:
@@ -313,17 +313,17 @@ def Component3_Decomp(dicomPath_50keV, dicomPath_65keV, Patient, Leg, filterimag
     z_image = int(ROI_array[2,7]+0.5)
     #Save image with the same z slice as the 50% UA, I need to rotate the image to get the same as the original
     im = Image.fromarray(np.rot90((Z[:,:,z_image,0]*255).astype(np.uint8)))
-    im.save('/Users/mkuczyns/Projects/Gout/output/seg/Patient'+ Patient+'Leg_'+Leg+'_ST.png')
+    im.save('/Users/mkuczyns/Projects/Gout/output/Patient'+ Patient+'Leg_'+Leg+'_ST.png')
     im = Image.fromarray(np.rot90((Z[:,:,z_image,1]*255).astype(np.uint8)))
-    im.save('/Users/mkuczyns/Projects/Gout/output/seg/Patient'+ Patient+'Leg_'+Leg+'_UA.png')   
+    im.save('/Users/mkuczyns/Projects/Gout/output/Patient'+ Patient+'Leg_'+Leg+'_UA.png')   
     im = Image.fromarray(np.rot90((Z[:,:,z_image,2]*255).astype(np.uint8)))
-    im.save('/Users/mkuczyns/Projects/Gout/output/seg/Patient'+ Patient+'Leg_'+Leg+'_HA.png')
+    im.save('/Users/mkuczyns/Projects/Gout/output/Patient'+ Patient+'Leg_'+Leg+'_HA.png')
     im = Image.fromarray(np.rot90((((Array_50keV[:,:,z_image]-np.min(Array_50keV))/(np.max(Array_50keV)-np.min(Array_50keV)))*255).astype(np.uint8)))
-    im.save('/Users/mkuczyns/Projects/Gout/output/seg/Patient'+ Patient+'Leg_'+Leg+'_50keV.png')
+    im.save('/Users/mkuczyns/Projects/Gout/output/Patient'+ Patient+'Leg_'+Leg+'_50keV.png')
     im = Image.fromarray(np.rot90((((Array_65keV[:,:,z_image]-np.min(Array_65keV))/(np.max(Array_65keV)-np.min(Array_65keV)))*255).astype(np.uint8)))
-    im.save('/Users/mkuczyns/Projects/Gout/output/seg/Patient'+ Patient+'Leg_'+Leg+'_65keV.png')
+    im.save('/Users/mkuczyns/Projects/Gout/output/Patient'+ Patient+'Leg_'+Leg+'_65keV.png')
     im = Image.fromarray(np.rot90((Array_Dual[:,:,z_image]*255).astype(np.uint8)))
-    im.save('/Users/mkuczyns/Projects/Gout/output/seg/Patient'+ Patient+'Leg_'+Leg+'_Dual.png')
+    im.save('/Users/mkuczyns/Projects/Gout/output/Patient'+ Patient+'Leg_'+Leg+'_Dual.png')
     # im = Image.fromarray(np.rot90((Z[:,:,z_image,0]*255).astype(np.uint8)))
     # im.save('C:/Users/dakondro.UC/Documents/Gout-Segmented_Images/Patient'+ Patient+'Leg_'+Leg+'_ST.png')
     # im = Image.fromarray(np.rot90((Z[:,:,z_image,1]*255).astype(np.uint8)))
