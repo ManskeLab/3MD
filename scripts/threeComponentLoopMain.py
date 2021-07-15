@@ -44,13 +44,18 @@ def main():
     parentDir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     imageDir = os.path.join(parentDir, 'images')
 
-    solvedArray = np.array([['Patient','Leg','MSU_0_Seg_dual','MSU_0625_Seg_dual','MSU_125_Seg_dual','MSU_25_Seg_dual','MSU_50_Seg_dual',\
-                            'MSU_0_Seg','MSU_0625_Seg','MSU_125_Seg','MSU_25_Seg','MSU_50_Seg',\
-                            'HA_100_Seg','HA_400_Seg','HA_800_Seg',\
-                            'MSU_0_50','MSU_0625_50','MSU_125_50','MSU_25_50','MSU_50_50',\
-                            'HA_100_50','HA_400_50','HA_800_50',\
-                            'MSU_0_65','MSU_0625_65','MSU_125_65','MSU_25_65','MSU_50_65',\
-                            'HA_100_65','HA_400_65','HA_800_65']], dtype=object)
+    solvedArray = np.array([['Patient', 'Leg', \
+                            'MSU_0_Seg_dual', 'MSU_0625_Seg_dual', 'MSU_125_Seg_dual', 'MSU_25_Seg_dual', 'MSU_50_Seg_dual', \
+                            'MSU_0_Seg_Image1', 'MSU_0625_Seg_Image1', 'MSU_125_Seg_Image1', 'MSU_25_Seg_Image1', 'MSU_50_Seg_Image1', \
+                            'HA_100_Seg_Image1', 'HA_400_Seg_Image1', 'HA_800_Seg_Image1', \
+                            'MSU_0_Seg_Image2', 'MSU_0625_Seg_Image2', 'MSU_125_Seg_Image2', 'MSU_25_Seg_Image2', 'MSU_50_Seg_Image2', \
+                            'HA_100_Seg_Image2', 'HA_400_Seg_Image2', 'HA_800_Seg_Image2', \
+                            'MSU_0_Seg_Image3', 'MSU_0625_Seg_Image3', 'MSU_125_Seg_Image3', 'MSU_25_Seg_Image3', 'MSU_50_Seg_Image3', \
+                            'HA_100_Seg_Image3', 'HA_400_Seg_Image3', 'HA_800_Seg_Image3', \
+                            'MSU_0_50', 'MSU_0625_50', 'MSU_125_50', 'MSU_25_50', 'MSU_50_50', \
+                            'HA_100_50', 'HA_400_50', 'HA_800_50', \
+                            'MSU_0_65', 'MSU_0625_65', 'MSU_125_65', 'MSU_25_65', 'MSU_50_65', \
+                            'HA_100_65', 'HA_400_65', 'HA_800_65']], dtype=object)
 
 
     # Loop through the directories and perform decomposition on each patient
@@ -82,7 +87,7 @@ def main():
             if subDir2[5] == '_':
                 patientNumber = str(int(subDir2[4]))
             else:
-                patientNumber = str(int(subDir2[4:5]))
+                patientNumber = str(int(subDir2[4:6]))
         
         if not pathL50keV or not pathL65keV or not pathR50keV or not pathR65keV or patientNumber == 0:
             print('Error: could not find a filepath, leg side, or patient number.')
@@ -116,7 +121,7 @@ if __name__ == '__main__':
     # Write output to CSV
     parentDir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     outputDir = os.path.join(parentDir, 'output')
-    outputFilename = os.path.join(outputDir, 'Patient' + patientNumber + '_SegmentedOutput.csv')
+    outputFilename = os.path.join(outputDir, 'Output.csv')
     np.savetxt(outputFilename, completedString.astype(str), delimiter=',', fmt='%s')
 
     print('--- %s seconds ---' % (time.time() - start_time))

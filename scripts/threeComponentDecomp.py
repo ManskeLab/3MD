@@ -27,7 +27,6 @@ from vtk.util.numpy_support import vtk_to_numpy, numpy_to_vtk
 
 from projectPercent import project_precent_a_array, extend_x_y
 
-
 def calculateMean(array, ROI_array, square_size, a, b, c, d, e, f):
     mean = np.mean(array[int(ROI_array[a,b] - square_size/2):int(ROI_array[a,b] + square_size/2), \
                             int(ROI_array[c,d] - square_size/2):int(ROI_array[c,d] + square_size/2), \
@@ -75,7 +74,7 @@ def Component3_Decomp(dicomPath_50keV, dicomPath_65keV, Patient, Leg, filterimag
         nodes_vtk_array_65 = reader65keV.GetOutput().GetPointData().GetScalars()
 
         
-    # image_array = np.zeros((int(xsize*ysize*zsize), 4))    
+    # image_array = np.zeros((int(xsize * ysize * zsize), 4))    
     image_array_50keV = vtk_to_numpy(nodes_vtk_array_50)
     image_array_65keV = vtk_to_numpy(nodes_vtk_array_65)
     
@@ -91,14 +90,8 @@ def Component3_Decomp(dicomPath_50keV, dicomPath_65keV, Patient, Leg, filterimag
     square_size = 11
     ROI_list = []
     
-    # Get the patient number (different for single and double digits)
-    if (dicomPath_50keV[-13] == '_'):
-        patientNumber = str(dicomPath_50keV[-14])
-    else:
-        patientNumber = str(dicomPath_50keV[-14:-15])
-    
     # Get the CSV input file. Assume the file name is PatientN_Phantom_ROIs.csv, where N is the patient number.
-    phantomROIsCSV = os.path.join(os.path.join(parentDir, 'input'), 'Patient' + patientNumber + '_Phantom_ROIs.csv')
+    phantomROIsCSV = os.path.join(os.path.join(parentDir, 'input'), 'Phantom_ROIs.csv')
 
     with open(phantomROIsCSV, newline = '') as ROIs:                                                                                      
         ROI_reader = csv.reader(ROIs, delimiter=',')
@@ -111,6 +104,10 @@ def Component3_Decomp(dicomPath_50keV, dicomPath_65keV, Patient, Leg, filterimag
     ROI_array = ROI_array[ROI_array[:,1]==Leg,:] # Same as above but for right or left leg
     ROI_array = ROI_array[:,3:-1] # Slice out first two columns and last column. Not sure what is in these columns...
     ROI_array = ROI_array.astype(float)
+
+    print()
+    print('ROI_array: ' + str(ROI_array))
+    print()
     
     MSU_0_65keV     = calculateMean(Array_65keV, ROI_array, square_size, 0, 3, 1, 3, 2, 3)
     MSU_0_50keV     = calculateMean(Array_50keV, ROI_array, square_size, 0, 3, 1, 3, 2, 3)
@@ -129,6 +126,24 @@ def Component3_Decomp(dicomPath_50keV, dicomPath_65keV, Patient, Leg, filterimag
     HA_800_65keV    = calculateMean(Array_65keV, ROI_array, square_size, 0, 2, 1, 2, 2, 2)
     HA_800_50keV    = calculateMean(Array_50keV, ROI_array, square_size, 0, 2, 1, 2, 2, 2)
     
+    # print('MSU_0_65keV: ' + str(MSU_0_65keV))
+    # print('MSU_0_50keV: ' + str(MSU_0_50keV))
+    # print('MSU_0625_65keV: ' + str(MSU_0625_65keV))
+    # print('MSU_0625_50keV: ' + str(MSU_0625_50keV))
+    # print('MSU_125_65keV: ' + str(MSU_125_65keV))
+    # print('MSU_125_50keV: ' + str(MSU_125_50keV))
+    # print('MSU_25_65keV: ' + str(MSU_25_65keV))
+    # print('MSU_25_50keV: ' + str(MSU_25_50keV))
+    # print('MSU_50_65keV: ' + str(MSU_50_65keV))
+    # print('MSU_50_50keV: ' + str(MSU_50_50keV))
+    # print('HA_100_65keV: ' + str(HA_100_65keV))
+    # print('HA_100_50keV: ' + str(HA_100_50keV))
+    # print('HA_400_65keV: ' + str(HA_400_65keV))
+    # print('HA_400_50keV: ' + str(HA_400_50keV))
+    # print('HA_800_65keV: ' + str(HA_800_65keV))
+    # print('HA_800_50keV: ' + str(HA_800_50keV))
+
+
     #------------------------------------------------------
     # Applying the Threshold 
     #------------------------------------------------------
@@ -173,7 +188,6 @@ def Component3_Decomp(dicomPath_50keV, dicomPath_65keV, Patient, Leg, filterimag
     
     if Correct_bone:
         # bone_percent = project_precent_a(HA_800_50keV, HA_800_65keV, 2550, 1700, 1, 1)
-        
         perp_m = -2530 / 1710        
         perp_b = HA_800_65keV - perp_m * HA_800_50keV
         bone_m = 1710 / 2530
@@ -190,10 +204,10 @@ def Component3_Decomp(dicomPath_50keV, dicomPath_65keV, Patient, Leg, filterimag
         HA_50keV, HA_65keV = extend_x_y(HA_100_50keV, HA_100_65keV, HA_800_50keV, HA_800_65keV, extension=0.5)  
         # UA_50keV, UA_65keV = extend_x_y(MSU_0_50keV, MSU_0_65keV, MSU_50_50keV, MSU_50_65keV, extension=0.01) 
         # HA_50keV, HA_65keV = extend_x_y(HA_100_50keV, HA_100_65keV, HA_800_50keV, HA_800_65keV, extension=0.01)            
-        print('UA_50keV = ' + str(UA_50keV))
-        print('UA_65keV = ' + str(UA_65keV))
-        print('HA_50keV = ' + str(HA_50keV))
-        print('HA_65keV = ' + str(HA_65keV))
+        # print('UA_50keV = ' + str(UA_50keV))
+        # print('UA_65keV = ' + str(UA_65keV))
+        # print('HA_50keV = ' + str(HA_50keV))
+        # print('HA_65keV = ' + str(HA_65keV))
 
     # print('Solving the linear equations')
     ST_50keV = float(ST_50keV)
@@ -227,7 +241,7 @@ def Component3_Decomp(dicomPath_50keV, dicomPath_65keV, Patient, Leg, filterimag
     Z[Array_50keV<-300.00,:] = 0
     # print('Removing the double negatives')
     # Everything with a double negative is kept
-    # Z_DN=(Z[:,:,:,0] * Z[:,:,:,1] * Z[:,:,:,2]) < 0 #This was wrong!
+    # Z_DN = (Z[:,:,:,0] * Z[:,:,:,1] * Z[:,:,:,2]) < 0 # This was wrong!
     Z_DN = ((Z[:,:,:,0] * Z[:,:,:,1] * Z[:,:,:,2]) > 0) & ((np.absolute(Z[:,:,:,0]) + np.absolute(Z[:,:,:,1]) + np.absolute(Z[:,:,:,2])) > 1)
     Z_S = ((Z[:,:,:,0] * Z[:,:,:,1] * Z[:,:,:,2]) > 0) & ((np.absolute(Z[:,:,:,0]) + np.absolute(Z[:,:,:,1]) + np.absolute(Z[:,:,:,2])) == 1)
 
@@ -265,7 +279,7 @@ def Component3_Decomp(dicomPath_50keV, dicomPath_65keV, Patient, Leg, filterimag
     print(np.min(Z[:,:,0]))
     print(np.min(Z[:,:,:,1]))
     print(np.min(Z[:,:,2]))
-    
+
     # print('Finding the zero TSs')
     Z[Z_TS,1] = project_precent_a_array(Array_50keV[Z_TS], Array_65keV[Z_TS], UA_50keV, UA_65keV, HA_50keV, HA_65keV)
     Z[Z_TS,2] = 1 - Z[Z_TS,1]
@@ -287,57 +301,113 @@ def Component3_Decomp(dicomPath_50keV, dicomPath_65keV, Patient, Leg, filterimag
     z_image = int(ROI_array[2,7] + 0.5)
 
     # Save image with the same z slice as the 50% UA, I need to rotate the image to get the same as the original
-    im = Image.fromarray(np.rot90((Z[:,:,z_image,0] * 255).astype(np.uint8)))
-    im.save('/Users/mkuczyns/Projects/Gout/output/Patient'+ Patient + 'Leg_' + Leg + '_ST.png')
-    im = Image.fromarray(np.rot90((Z[:,:,z_image,1] * 255).astype(np.uint8)))
-    im.save('/Users/mkuczyns/Projects/Gout/output/Patient'+ Patient + 'Leg_' + Leg + '_UA.png')   
-    im = Image.fromarray(np.rot90((Z[:,:,z_image,2] * 255).astype(np.uint8)))
-    im.save('/Users/mkuczyns/Projects/Gout/output/Patient'+ Patient + 'Leg_' + Leg + '_HA.png')
-    im = Image.fromarray(np.rot90((((Array_50keV[:,:,z_image] - np.min(Array_50keV)) / (np.max(Array_50keV) - np.min(Array_50keV))) * 255).astype(np.uint8)))
-    im.save('/Users/mkuczyns/Projects/Gout/output/Patient'+ Patient + 'Leg_' + Leg + '_50keV.png')
-    im = Image.fromarray(np.rot90((((Array_65keV[:,:,z_image] - np.min(Array_65keV)) / (np.max(Array_65keV) - np.min(Array_65keV))) * 255).astype(np.uint8)))
-    im.save('/Users/mkuczyns/Projects/Gout/output/Patient'+ Patient + 'Leg_' + Leg + '_65keV.png')
-    im = Image.fromarray(np.rot90((Array_Dual[:,:,z_image] * 255).astype(np.uint8)))
-    im.save('/Users/mkuczyns/Projects/Gout/output/Patient'+ Patient + 'Leg_' + Leg + '_Dual.png')
+    # Create a new directory for each patient, if needed
+    newPatientPath = os.path.join(outpath, 'Patient' + Patient)
+    if not os.path.exists(newPatientPath):
+        os.makedirs(newPatientPath)
     
-    UA_Array = Z[:,:,:,1] * 1000
+    im = Image.fromarray(np.rot90((Z[:,:,z_image,0] * 255).astype(np.uint8)))
+    im.save(os.path.join(newPatientPath, 'Patient' + Patient + 'Leg_' + Leg + '_ST.png'))
+    im = Image.fromarray(np.rot90((Z[:,:,z_image,1] * 255).astype(np.uint8)))
+    im.save(os.path.join(newPatientPath, 'Patient' + Patient + 'Leg_' + Leg + '_UA.png'))  
+    im = Image.fromarray(np.rot90((Z[:,:,z_image,2] * 255).astype(np.uint8)))
+    im.save(os.path.join(newPatientPath, 'Patient' + Patient + 'Leg_' + Leg + '_HA.png'))
+    im = Image.fromarray(np.rot90((((Array_50keV[:,:,z_image] - np.min(Array_50keV)) / (np.max(Array_50keV) - np.min(Array_50keV))) * 255).astype(np.uint8)))
+    im.save(os.path.join(newPatientPath, 'Patient' + Patient + 'Leg_' + Leg + '_50keV.png'))
+    im = Image.fromarray(np.rot90((((Array_65keV[:,:,z_image] - np.min(Array_65keV)) / (np.max(Array_65keV) - np.min(Array_65keV))) * 255).astype(np.uint8)))
+    im.save(os.path.join(newPatientPath, 'Patient' + Patient + 'Leg_' + Leg + '_65keV.png'))
+    im = Image.fromarray(np.rot90((Array_Dual[:,:,z_image] * 255).astype(np.uint8)))
+    im.save(os.path.join(newPatientPath, 'Patient' + Patient + 'Leg_' + Leg + '_Dual.png'))
+    
+    # UA_Array = Z[:,:,:,1] * 1000
     
     # Convert to meaningful values
-    if Extend_seed:
-        Z[:,:,:,1] = 652 * 2 * Z[:,:,:,1]
-        Z[:,:,:,2] = 800 * (1 + (0.5 * 7/8)) * Z[:,:,:,2]  
-        # Z[:,:,:,1] = 652 * 1.01 * Z[:,:,:,1]
-        # Z[:,:,:,2] = 800 * (1.01) * Z[:,:,:,2] 
-    else:
-        Z[:,:,:,1] = 652 * Z[:,:,:,1]
-        Z[:,:,:,2] = 800 * Z[:,:,:,2]
+    # if Extend_seed:
+    #     Z[:,:,:,1] = 652 * 2 * Z[:,:,:,1]
+    #     Z[:,:,:,2] = 800 * (1 + (0.5 * 7/8)) * Z[:,:,:,2]  
+    #     # Z[:,:,:,1] = 652 * 1.01 * Z[:,:,:,1]
+    #     # Z[:,:,:,2] = 800 * (1.01) * Z[:,:,:,2] 
+    # else:
+    #     Z[:,:,:,1] = 652 * Z[:,:,:,1]
+    #     Z[:,:,:,2] = 800 * Z[:,:,:,2]
     
     #---------------------------------------------------
     # Saving Stuff 
     #---------------------------------------------------
-    # Finding the values of everything
-    MSU_0_Seg           = calculateMean(Z, ROI_array, square_size, 0, 3, 1, 3, 2, 3)
-    MSU_0625_Seg        = calculateMean(Z, ROI_array, square_size, 0, 4, 1, 4, 2, 4)
-    MSU_125_Seg         = calculateMean(Z, ROI_array, square_size, 0, 5, 1, 5, 2, 5)
-    MSU_25_Seg          = calculateMean(Z, ROI_array, square_size, 0, 6, 1, 6, 2, 6)
-    MSU_50_Seg          = calculateMean(Z, ROI_array, square_size, 0, 7, 1, 7, 2, 7)
-    HA_100_Seg          = calculateMean(Z, ROI_array, square_size, 0, 0, 1, 0, 2, 0)
-    HA_400_Seg          = calculateMean(Z, ROI_array, square_size, 0, 1, 1, 1, 2, 1)
-    HA_800_Seg          = calculateMean(Z, ROI_array, square_size, 0, 2, 1, 2, 2, 2)
-    MSU_0_Seg_dual      = calculateMean(Z, ROI_array, square_size, 0, 3, 1, 3, 2, 3)
-    MSU_0625_Seg_dual   = calculateMean(Z, ROI_array, square_size, 0, 4, 1, 4, 2, 4)
-    MSU_125_Seg_dual    = calculateMean(Z, ROI_array, square_size, 0, 5, 1, 5, 2, 5)
-    MSU_25_Seg_dual     = calculateMean(Z, ROI_array, square_size, 0, 6, 1, 6, 2, 6)
-    MSU_50_Seg_dual     = calculateMean(Z, ROI_array, square_size, 0, 7, 1, 7, 2, 7)
+    # Finding the values of everything (as percentages)
+    # Decomp image 1:
+    MSU_0_Seg_Image1    = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 3, 1, 3, 2, 3)
+    MSU_0625_Seg_Image1 = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 4, 1, 4, 2, 4)
+    MSU_125_Seg_Image1  = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 5, 1, 5, 2, 5)
+    MSU_25_Seg_Image1   = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 6, 1, 6, 2, 6)
+    MSU_50_Seg_Image1   = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 7, 1, 7, 2, 7)
+    HA_100_Seg_Image1   = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 0, 1, 0, 2, 0)
+    HA_400_Seg_Image1   = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 1, 1, 1, 2, 1)
+    HA_800_Seg_Image1   = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 2, 1, 2, 2, 2)
+    
+    # Decomp image 2:
+    MSU_0_Seg_Image2    = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 3, 1, 3, 2, 3)
+    MSU_0625_Seg_Image2 = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 4, 1, 4, 2, 4)
+    MSU_125_Seg_Image2  = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 5, 1, 5, 2, 5)
+    MSU_25_Seg_Image2   = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 6, 1, 6, 2, 6)
+    MSU_50_Seg_Image2   = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 7, 1, 7, 2, 7)
+    HA_100_Seg_Image2   = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 0, 1, 0, 2, 0)
+    HA_400_Seg_Image2   = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 1, 1, 1, 2, 1)
+    HA_800_Seg_Image2   = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 2, 1, 2, 2, 2)
+    
+    # Decomp image 3:
+    MSU_0_Seg_Image3    = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 3, 1, 3, 2, 3)
+    MSU_0625_Seg_Image3 = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 4, 1, 4, 2, 4)
+    MSU_125_Seg_Image3  = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 5, 1, 5, 2, 5)
+    MSU_25_Seg_Image3   = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 6, 1, 6, 2, 6)
+    MSU_50_Seg_Image3   = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 7, 1, 7, 2, 7)
+    HA_100_Seg_Image3   = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 0, 1, 0, 2, 0)
+    HA_400_Seg_Image3   = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 1, 1, 1, 2, 1)
+    HA_800_Seg_Image3   = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 2, 1, 2, 2, 2)
 
-    # print(MSU_0_Seg)
-    # print(MSU_0625_Seg)
-    # print(MSU_125_Seg)
-    # print(MSU_25_Seg)
-    # print(MSU_50_Seg)
-    # print(HA_100_Seg)
-    # print(HA_400_Seg)
-    # print(HA_800_Seg)
+    MSU_0_Seg_dual      = 100 * calculateMean(Array_Dual, ROI_array, square_size, 0, 3, 1, 3, 2, 3)
+    MSU_0625_Seg_dual   = 100 * calculateMean(Array_Dual, ROI_array, square_size, 0, 4, 1, 4, 2, 4)
+    MSU_125_Seg_dual    = 100 * calculateMean(Array_Dual, ROI_array, square_size, 0, 5, 1, 5, 2, 5)
+    MSU_25_Seg_dual     = 100 * calculateMean(Array_Dual, ROI_array, square_size, 0, 6, 1, 6, 2, 6)
+    MSU_50_Seg_dual     = 100 * calculateMean(Array_Dual, ROI_array, square_size, 0, 7, 1, 7, 2, 7)
+
+    # print()
+    # print('Printing seg values:')
+    # print('MSU_0_Seg_Image1: ' + str(MSU_0_Seg_Image1))
+    # print('MSU_0625_Seg_Image1: ' + str(MSU_0625_Seg_Image1))
+    # print('MSU_125_Seg_Image1: ' + str(MSU_125_Seg_Image1))
+    # print('MSU_25_Seg_Image1: ' + str(MSU_25_Seg_Image1))
+    # print('MSU_50_Seg_Image1: ' + str(MSU_50_Seg_Image1))
+    # print('HA_100_Seg_Image1: ' + str(HA_100_Seg_Image1))
+    # print('HA_400_Seg_Image1: ' + str(HA_400_Seg_Image1))
+    # print('HA_800_Seg_Image1: ' + str(HA_800_Seg_Image1))
+    # print()
+    # print('MSU_0_Seg_Image2: ' + str(MSU_0_Seg_Image2))
+    # print('MSU_0625_Seg_Image2: ' + str(MSU_0625_Seg_Image2))
+    # print('MSU_125_Seg_Image2: ' + str(MSU_125_Seg_Image2))
+    # print('MSU_25_Seg_Image2: ' + str(MSU_25_Seg_Image2))
+    # print('MSU_50_Seg_Image2: ' + str(MSU_50_Seg_Image2))
+    # print('HA_100_Seg_Image2: ' + str(HA_100_Seg_Image2))
+    # print('HA_400_Seg_Image2: ' + str(HA_400_Seg_Image2))
+    # print('HA_800_Seg_Image2: ' + str(HA_800_Seg_Image2))
+    # print()
+    # print('MSU_0_Seg_Image3: ' + str(MSU_0_Seg_Image3))
+    # print('MSU_0625_Seg_Image3: ' + str(MSU_0625_Seg_Image3))
+    # print('MSU_125_Seg_Image3: ' + str(MSU_125_Seg_Image3))
+    # print('MSU_25_Seg_Image3: ' + str(MSU_25_Seg_Image3))
+    # print('MSU_50_Seg_Image3: ' + str(MSU_50_Seg_Image3))
+    # print('HA_100_Seg_Image3: ' + str(HA_100_Seg_Image3))
+    # print('HA_400_Seg_Image3: ' + str(HA_400_Seg_Image3))
+    # print('HA_800_Seg_Image3: ' + str(HA_800_Seg_Image3))
+    # print()
+
+    # print('MSU_0_Seg_dual: ' + str(MSU_0_Seg_dual))
+    # print('MSU_0625_Seg_dual: ' + str(MSU_0625_Seg_dual))
+    # print('MSU_125_Seg_dual: ' + str(MSU_125_Seg_dual))
+    # print('MSU_25_Seg_dual: ' + str(MSU_25_Seg_dual))
+    # print('MSU_50_Seg_dual: ' + str(MSU_50_Seg_dual))
+    # print()
+
     # Array2Copy = vtk.vtkImageData()
     # Array2Copy.DeepCopy(medicalImage)  
     
@@ -353,13 +423,18 @@ def Component3_Decomp(dicomPath_50keV, dicomPath_65keV, Patient, Leg, filterimag
     # image = vtk.vtkImageData()
     # image.SetDimensions((xsize, ysize, zsize))
     
-    output = np.array([[Patient,Leg,MSU_0_Seg_dual,MSU_0625_Seg_dual,MSU_125_Seg_dual,MSU_25_Seg_dual,MSU_50_Seg_dual,\
-                      MSU_0_Seg,MSU_0625_Seg,MSU_125_Seg,MSU_25_Seg,MSU_50_Seg,\
-                      HA_100_Seg,HA_400_Seg,HA_800_Seg,\
-                      MSU_0_50keV, MSU_0625_50keV, MSU_125_50keV,MSU_25_50keV,MSU_50_50keV,\
-                      HA_100_50keV, HA_400_50keV, HA_800_50keV,\
-                      MSU_0_65keV, MSU_0625_65keV, MSU_125_65keV,MSU_25_65keV,MSU_50_65keV,\
-                      HA_100_65keV, HA_400_65keV, HA_800_65keV]], dtype=object)
+    output = np.array([[Patient, Leg, \
+                        MSU_0_Seg_dual, MSU_0625_Seg_dual, MSU_125_Seg_dual, MSU_25_Seg_dual, MSU_50_Seg_dual, \
+                        MSU_0_Seg_Image1, MSU_0625_Seg_Image1, MSU_125_Seg_Image1, MSU_25_Seg_Image1, MSU_50_Seg_Image1, \
+                        HA_100_Seg_Image1, HA_400_Seg_Image1,HA_800_Seg_Image1,\
+                        MSU_0_Seg_Image2, MSU_0625_Seg_Image2, MSU_125_Seg_Image2, MSU_25_Seg_Image2, MSU_50_Seg_Image2, \
+                        HA_100_Seg_Image2, HA_400_Seg_Image2,HA_800_Seg_Image2,\
+                        MSU_0_Seg_Image3, MSU_0625_Seg_Image3, MSU_125_Seg_Image3, MSU_25_Seg_Image3, MSU_50_Seg_Image3, \
+                        HA_100_Seg_Image3, HA_400_Seg_Image3,HA_800_Seg_Image3,\
+                        MSU_0_50keV, MSU_0625_50keV, MSU_125_50keV, MSU_25_50keV, MSU_50_50keV,\
+                        HA_100_50keV, HA_400_50keV, HA_800_50keV,\
+                        MSU_0_65keV, MSU_0625_65keV, MSU_125_65keV,MSU_25_65keV,MSU_50_65keV,\
+                        HA_100_65keV, HA_400_65keV, HA_800_65keV]], dtype=object)
     # print(np.size(output))
     # if (write):
     #    print('Writing segementation to output file...')
