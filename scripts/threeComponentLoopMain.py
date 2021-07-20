@@ -46,12 +46,12 @@ def main():
 
     solvedArray = np.array([['Patient', 'Leg', \
                             'MSU_0_Seg_dual', 'MSU_0625_Seg_dual', 'MSU_125_Seg_dual', 'MSU_25_Seg_dual', 'MSU_50_Seg_dual', \
-                            'MSU_0_Seg_Image1', 'MSU_0625_Seg_Image1', 'MSU_125_Seg_Image1', 'MSU_25_Seg_Image1', 'MSU_50_Seg_Image1', \
-                            'HA_100_Seg_Image1', 'HA_400_Seg_Image1', 'HA_800_Seg_Image1', \
-                            'MSU_0_Seg_Image2', 'MSU_0625_Seg_Image2', 'MSU_125_Seg_Image2', 'MSU_25_Seg_Image2', 'MSU_50_Seg_Image2', \
-                            'HA_100_Seg_Image2', 'HA_400_Seg_Image2', 'HA_800_Seg_Image2', \
-                            'MSU_0_Seg_Image3', 'MSU_0625_Seg_Image3', 'MSU_125_Seg_Image3', 'MSU_25_Seg_Image3', 'MSU_50_Seg_Image3', \
-                            'HA_100_Seg_Image3', 'HA_400_Seg_Image3', 'HA_800_Seg_Image3', \
+                            'MSU_0_Seg_ST', 'MSU_0625_Seg_ST', 'MSU_125_Seg_ST', 'MSU_25_Seg_ST', 'MSU_50_Seg_ST', \
+                            'HA_100_Seg_ST', 'HA_400_Seg_ST', 'HA_800_Seg_ST', \
+                            'MSU_0_Seg_UA', 'MSU_0625_Seg_UA', 'MSU_125_Seg_UA', 'MSU_25_Seg_UA', 'MSU_50_Seg_UA', \
+                            'HA_100_Seg_UA', 'HA_400_Seg_UA', 'HA_800_Seg_UA', \
+                            'MSU_0_Seg_HA', 'MSU_0625_Seg_HA', 'MSU_125_Seg_HA', 'MSU_25_Seg_HA', 'MSU_50_Seg_HA', \
+                            'HA_100_Seg_HA', 'HA_400_Seg_HA', 'HA_800_Seg_HA', \
                             'MSU_0_50', 'MSU_0625_50', 'MSU_125_50', 'MSU_25_50', 'MSU_50_50', \
                             'HA_100_50', 'HA_400_50', 'HA_800_50', \
                             'MSU_0_65', 'MSU_0625_65', 'MSU_125_65', 'MSU_25_65', 'MSU_50_65', \

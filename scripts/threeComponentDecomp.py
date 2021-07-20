@@ -336,34 +336,34 @@ def Component3_Decomp(dicomPath_50keV, dicomPath_65keV, Patient, Leg, filterimag
     #---------------------------------------------------
     # Finding the values of everything (as percentages)
     # Decomp image 1:
-    MSU_0_Seg_Image1    = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 3, 1, 3, 2, 3)
-    MSU_0625_Seg_Image1 = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 4, 1, 4, 2, 4)
-    MSU_125_Seg_Image1  = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 5, 1, 5, 2, 5)
-    MSU_25_Seg_Image1   = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 6, 1, 6, 2, 6)
-    MSU_50_Seg_Image1   = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 7, 1, 7, 2, 7)
-    HA_100_Seg_Image1   = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 0, 1, 0, 2, 0)
-    HA_400_Seg_Image1   = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 1, 1, 1, 2, 1)
-    HA_800_Seg_Image1   = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 2, 1, 2, 2, 2)
+    MSU_0_Seg_ST    = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 3, 1, 3, 2, 3)
+    MSU_0625_Seg_ST = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 4, 1, 4, 2, 4)
+    MSU_125_Seg_ST  = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 5, 1, 5, 2, 5)
+    MSU_25_Seg_ST   = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 6, 1, 6, 2, 6)
+    MSU_50_Seg_ST   = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 7, 1, 7, 2, 7)
+    HA_100_Seg_ST   = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 0, 1, 0, 2, 0)
+    HA_400_Seg_ST   = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 1, 1, 1, 2, 1)
+    HA_800_Seg_ST   = 100 * calculateMean(Z[:,:,:,0], ROI_array, square_size, 0, 2, 1, 2, 2, 2)
     
     # Decomp image 2:
-    MSU_0_Seg_Image2    = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 3, 1, 3, 2, 3)
-    MSU_0625_Seg_Image2 = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 4, 1, 4, 2, 4)
-    MSU_125_Seg_Image2  = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 5, 1, 5, 2, 5)
-    MSU_25_Seg_Image2   = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 6, 1, 6, 2, 6)
-    MSU_50_Seg_Image2   = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 7, 1, 7, 2, 7)
-    HA_100_Seg_Image2   = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 0, 1, 0, 2, 0)
-    HA_400_Seg_Image2   = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 1, 1, 1, 2, 1)
-    HA_800_Seg_Image2   = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 2, 1, 2, 2, 2)
+    MSU_0_Seg_UA    = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 3, 1, 3, 2, 3)
+    MSU_0625_Seg_UA = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 4, 1, 4, 2, 4)
+    MSU_125_Seg_UA  = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 5, 1, 5, 2, 5)
+    MSU_25_Seg_UA   = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 6, 1, 6, 2, 6)
+    MSU_50_Seg_UA   = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 7, 1, 7, 2, 7)
+    HA_100_Seg_UA   = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 0, 1, 0, 2, 0)
+    HA_400_Seg_UA   = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 1, 1, 1, 2, 1)
+    HA_800_Seg_UA   = 100 * calculateMean(Z[:,:,:,1], ROI_array, square_size, 0, 2, 1, 2, 2, 2)
     
     # Decomp image 3:
-    MSU_0_Seg_Image3    = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 3, 1, 3, 2, 3)
-    MSU_0625_Seg_Image3 = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 4, 1, 4, 2, 4)
-    MSU_125_Seg_Image3  = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 5, 1, 5, 2, 5)
-    MSU_25_Seg_Image3   = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 6, 1, 6, 2, 6)
-    MSU_50_Seg_Image3   = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 7, 1, 7, 2, 7)
-    HA_100_Seg_Image3   = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 0, 1, 0, 2, 0)
-    HA_400_Seg_Image3   = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 1, 1, 1, 2, 1)
-    HA_800_Seg_Image3   = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 2, 1, 2, 2, 2)
+    MSU_0_Seg_HA    = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 3, 1, 3, 2, 3)
+    MSU_0625_Seg_HA = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 4, 1, 4, 2, 4)
+    MSU_125_Seg_HA  = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 5, 1, 5, 2, 5)
+    MSU_25_Seg_HA   = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 6, 1, 6, 2, 6)
+    MSU_50_Seg_HA   = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 7, 1, 7, 2, 7)
+    HA_100_Seg_HA   = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 0, 1, 0, 2, 0)
+    HA_400_Seg_HA   = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 1, 1, 1, 2, 1)
+    HA_800_Seg_HA   = 100 * calculateMean(Z[:,:,:,2], ROI_array, square_size, 0, 2, 1, 2, 2, 2)
 
     MSU_0_Seg_dual      = 100 * calculateMean(Array_Dual, ROI_array, square_size, 0, 3, 1, 3, 2, 3)
     MSU_0625_Seg_dual   = 100 * calculateMean(Array_Dual, ROI_array, square_size, 0, 4, 1, 4, 2, 4)
@@ -373,32 +373,32 @@ def Component3_Decomp(dicomPath_50keV, dicomPath_65keV, Patient, Leg, filterimag
 
     # print()
     # print('Printing seg values:')
-    # print('MSU_0_Seg_Image1: ' + str(MSU_0_Seg_Image1))
-    # print('MSU_0625_Seg_Image1: ' + str(MSU_0625_Seg_Image1))
-    # print('MSU_125_Seg_Image1: ' + str(MSU_125_Seg_Image1))
-    # print('MSU_25_Seg_Image1: ' + str(MSU_25_Seg_Image1))
-    # print('MSU_50_Seg_Image1: ' + str(MSU_50_Seg_Image1))
-    # print('HA_100_Seg_Image1: ' + str(HA_100_Seg_Image1))
-    # print('HA_400_Seg_Image1: ' + str(HA_400_Seg_Image1))
-    # print('HA_800_Seg_Image1: ' + str(HA_800_Seg_Image1))
+    # print('MSU_0_Seg_ST: ' + str(MSU_0_Seg_ST))
+    # print('MSU_0625_Seg_ST: ' + str(MSU_0625_Seg_ST))
+    # print('MSU_125_Seg_ST: ' + str(MSU_125_Seg_ST))
+    # print('MSU_25_Seg_ST: ' + str(MSU_25_Seg_ST))
+    # print('MSU_50_Seg_ST: ' + str(MSU_50_Seg_ST))
+    # print('HA_100_Seg_ST: ' + str(HA_100_Seg_ST))
+    # print('HA_400_Seg_ST: ' + str(HA_400_Seg_ST))
+    # print('HA_800_Seg_ST: ' + str(HA_800_Seg_ST))
     # print()
-    # print('MSU_0_Seg_Image2: ' + str(MSU_0_Seg_Image2))
-    # print('MSU_0625_Seg_Image2: ' + str(MSU_0625_Seg_Image2))
-    # print('MSU_125_Seg_Image2: ' + str(MSU_125_Seg_Image2))
-    # print('MSU_25_Seg_Image2: ' + str(MSU_25_Seg_Image2))
-    # print('MSU_50_Seg_Image2: ' + str(MSU_50_Seg_Image2))
-    # print('HA_100_Seg_Image2: ' + str(HA_100_Seg_Image2))
-    # print('HA_400_Seg_Image2: ' + str(HA_400_Seg_Image2))
-    # print('HA_800_Seg_Image2: ' + str(HA_800_Seg_Image2))
+    # print('MSU_0_Seg_UA: ' + str(MSU_0_Seg_UA))
+    # print('MSU_0625_Seg_UA: ' + str(MSU_0625_Seg_UA))
+    # print('MSU_125_Seg_UA: ' + str(MSU_125_Seg_UA))
+    # print('MSU_25_Seg_UA: ' + str(MSU_25_Seg_UA))
+    # print('MSU_50_Seg_UA: ' + str(MSU_50_Seg_UA))
+    # print('HA_100_Seg_UA: ' + str(HA_100_Seg_UA))
+    # print('HA_400_Seg_UA: ' + str(HA_400_Seg_UA))
+    # print('HA_800_Seg_UA: ' + str(HA_800_Seg_UA))
     # print()
-    # print('MSU_0_Seg_Image3: ' + str(MSU_0_Seg_Image3))
-    # print('MSU_0625_Seg_Image3: ' + str(MSU_0625_Seg_Image3))
-    # print('MSU_125_Seg_Image3: ' + str(MSU_125_Seg_Image3))
-    # print('MSU_25_Seg_Image3: ' + str(MSU_25_Seg_Image3))
-    # print('MSU_50_Seg_Image3: ' + str(MSU_50_Seg_Image3))
-    # print('HA_100_Seg_Image3: ' + str(HA_100_Seg_Image3))
-    # print('HA_400_Seg_Image3: ' + str(HA_400_Seg_Image3))
-    # print('HA_800_Seg_Image3: ' + str(HA_800_Seg_Image3))
+    # print('MSU_0_Seg_HA: ' + str(MSU_0_Seg_HA))
+    # print('MSU_0625_Seg_HA: ' + str(MSU_0625_Seg_HA))
+    # print('MSU_125_Seg_HA: ' + str(MSU_125_Seg_HA))
+    # print('MSU_25_Seg_HA: ' + str(MSU_25_Seg_HA))
+    # print('MSU_50_Seg_HA: ' + str(MSU_50_Seg_HA))
+    # print('HA_100_Seg_HA: ' + str(HA_100_Seg_HA))
+    # print('HA_400_Seg_HA: ' + str(HA_400_Seg_HA))
+    # print('HA_800_Seg_HA: ' + str(HA_800_Seg_HA))
     # print()
 
     # print('MSU_0_Seg_dual: ' + str(MSU_0_Seg_dual))
@@ -425,12 +425,12 @@ def Component3_Decomp(dicomPath_50keV, dicomPath_65keV, Patient, Leg, filterimag
     
     output = np.array([[Patient, Leg, \
                         MSU_0_Seg_dual, MSU_0625_Seg_dual, MSU_125_Seg_dual, MSU_25_Seg_dual, MSU_50_Seg_dual, \
-                        MSU_0_Seg_Image1, MSU_0625_Seg_Image1, MSU_125_Seg_Image1, MSU_25_Seg_Image1, MSU_50_Seg_Image1, \
-                        HA_100_Seg_Image1, HA_400_Seg_Image1,HA_800_Seg_Image1,\
-                        MSU_0_Seg_Image2, MSU_0625_Seg_Image2, MSU_125_Seg_Image2, MSU_25_Seg_Image2, MSU_50_Seg_Image2, \
-                        HA_100_Seg_Image2, HA_400_Seg_Image2,HA_800_Seg_Image2,\
-                        MSU_0_Seg_Image3, MSU_0625_Seg_Image3, MSU_125_Seg_Image3, MSU_25_Seg_Image3, MSU_50_Seg_Image3, \
-                        HA_100_Seg_Image3, HA_400_Seg_Image3,HA_800_Seg_Image3,\
+                        MSU_0_Seg_ST, MSU_0625_Seg_ST, MSU_125_Seg_ST, MSU_25_Seg_ST, MSU_50_Seg_ST, \
+                        HA_100_Seg_ST, HA_400_Seg_ST,HA_800_Seg_ST,\
+                        MSU_0_Seg_UA, MSU_0625_Seg_UA, MSU_125_Seg_UA, MSU_25_Seg_UA, MSU_50_Seg_UA, \
+                        HA_100_Seg_UA, HA_400_Seg_UA,HA_800_Seg_UA,\
+                        MSU_0_Seg_HA, MSU_0625_Seg_HA, MSU_125_Seg_HA, MSU_25_Seg_HA, MSU_50_Seg_HA, \
+                        HA_100_Seg_HA, HA_400_Seg_HA,HA_800_Seg_HA,\
                         MSU_0_50keV, MSU_0625_50keV, MSU_125_50keV, MSU_25_50keV, MSU_50_50keV,\
                         HA_100_50keV, HA_400_50keV, HA_800_50keV,\
                         MSU_0_65keV, MSU_0625_65keV, MSU_125_65keV,MSU_25_65keV,MSU_50_65keV,\
