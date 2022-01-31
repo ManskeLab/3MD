@@ -67,6 +67,8 @@ def main():
 
     for subDir1 in next(os.walk(imageDir))[1]:
         nextPatientDir = os.path.join(imageDir, subDir1)
+        if 'phantom' in nextPatientDir.lower():
+            continue
 
         for subDir2 in next(os.walk(nextPatientDir))[1]:
             nextImageDir = os.path.join(nextPatientDir, subDir2)
