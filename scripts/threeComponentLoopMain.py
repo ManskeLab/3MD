@@ -44,7 +44,7 @@ def main():
     parentDir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     imageDir = os.path.join(parentDir, 'images')
 
-    solvedArray = np.array([['Patient', 'Leg', \
+    solvedArray = np.array([['Patient', 'Side', \
                             'MSU_0_Seg_dual', 'MSU_0625_Seg_dual', 'MSU_125_Seg_dual', 'MSU_25_Seg_dual', 'MSU_50_Seg_dual', \
                             'MSU_0_Seg_ST', 'MSU_0625_Seg_ST', 'MSU_125_Seg_ST', 'MSU_25_Seg_ST', 'MSU_50_Seg_ST', \
                             'HA_100_Seg_ST', 'HA_400_Seg_ST', 'HA_800_Seg_ST', \
@@ -64,6 +64,10 @@ def main():
     pathR50keV = ''
     pathR65keV = ''
     patientNumber = 0
+    sideL = ''
+    sideR = ''
+    solvedL = []
+    solvedR = []
 
     for subDir1 in next(os.walk(imageDir))[1]:
         nextPatientDir = os.path.join(imageDir, subDir1)
@@ -75,11 +79,13 @@ def main():
 
             # Get the path for the 50keV and 65keV images
             if '_L_' in nextImageDir:
+                sideL = 'L'
                 if '50keV' in nextImageDir:
                     pathL50keV = nextImageDir
                 elif '65keV' in nextImageDir:
                     pathL65keV = nextImageDir
             elif '_R_' in nextImageDir:
+                sideR = 'R'
                 if '50keV' in nextImageDir:
                     pathR50keV = nextImageDir
                 elif '65keV' in nextImageDir:
@@ -91,22 +97,44 @@ def main():
             else:
                 patientNumber = str(int(subDir2[4:6]))
         
-        if not pathL50keV or not pathL65keV or not pathR50keV or not pathR65keV or patientNumber == 0:
-            print('Error: could not find a filepath, leg side, or patient number.')
+        if patientNumber == 0:
+            print('Error: could not find a valid patient number.')
             sys.exit(1)
 
-        solvedL = Component3_Decomp(pathL50keV, pathL65keV, patientNumber, 'L', filterimage=False, Correct_bone=True, Extend_seed=True)
-        solvedR = Component3_Decomp(pathR50keV, pathR65keV, patientNumber, 'R', filterimage=False, Correct_bone=True, Extend_seed=True)
+        if sideL == 'L':
+            if not pathL50keV or not pathL65keV:
+                print('Error: could not find a filepath for left side.')
+                sys.exit(1)
+            
+            print('*** Running 3MD using images:')
+            print('50 keV: ' + str(pathL50keV))
+            print('65 keV: ' + str(pathL65keV))
+            print()
+            solvedL = Component3_Decomp(pathL50keV, pathL65keV, patientNumber, 'L', filterimage=False, Correct_bone=True, Extend_seed=True)
+            
+            print('*** Printing 3 component decomposition for left side:')
+            print(solvedL)
+            print()
+            
+            solvedArray = np.vstack([solvedArray, solvedL])
 
-        print('Printing 3 component decomposition for left leg:')
-        print(solvedL)
-        print()
-        print('Printing 3 component decomposition for right leg:')
-        print(solvedR)
-        print()
+        if sideR == 'R':
+            if not pathR50keV or not pathR65keV:
+                print('Error: could not find a filepath for right side.')
+                sys.exit(1)
+            
+            print('*** Running 3MD using images:')
+            print('50 keV: ' + str(pathR50keV))
+            print('65 keV: ' + str(pathR65keV))
+            print()
+            solvedR = Component3_Decomp(pathR50keV, pathR65keV, patientNumber, 'R', filterimage=False, Correct_bone=True, Extend_seed=True)
+            
+            print('*** Printing 3 component decomposition for right side:')
+            print(solvedR)
+            print()
+            
+            solvedArray = np.vstack([solvedArray, solvedR])
 
-        solvedArray = np.vstack([solvedArray, solvedL])
-        solvedArray = np.vstack([solvedArray, solvedR])
     return solvedArray
 
 
@@ -119,11 +147,19 @@ if __name__ == '__main__':
     completedString[1:,:] = completed[1:,:].astype('S7')
 
     patientNumber = completed[1][0]
+    side = completed[1][1]
 
     # Write output to CSV
     parentDir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     outputDir = os.path.join(parentDir, 'output')
-    outputFilename = os.path.join(outputDir, 'Output.csv')
+    outputCSV = 'Patient_' + str(patientNumber) + '_Output.csv'
+    outputFilename = os.path.join(outputDir, outputCSV)
+
+    print('*** Writing outputs to CSV:')
+    print(outputFilename)
+    print()
+
     np.savetxt(outputFilename, completedString.astype(str), delimiter=',', fmt='%s')
 
+    print('*** Done!')
     print('--- %s seconds ---' % (time.time() - start_time))
